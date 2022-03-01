@@ -1,0 +1,6 @@
+name: Censure
+main: net.millida.CensurePlugin
+version: 1.0
+author: MillidaStudio
+depend:
+  - ProtocolLib
