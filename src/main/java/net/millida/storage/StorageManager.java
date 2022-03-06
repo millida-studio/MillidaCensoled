@@ -9,6 +9,8 @@ import net.millida.storage.mysql.MysqlExecutor;
 import net.millida.storage.yml.impl.PlayerDataConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.ResultSet;
@@ -38,6 +40,8 @@ public final class StorageManager {
     private static final String ADD_WORD_QUERY = "INSERT INTO `CensureWords` (`Name`, `Word`, `Remove`) VALUES (?,?,?)";
     private static final String DELETE_WORD_QUERY = "DELETE FROM `CensureWords` WHERE `Name`=? AND `Word`=?";
 
+    private static final String MENTIONS_SAVE_QUERY = "INSERT INTO `Mentions` (`Name`, `Enable`, `Sound`) VALUES (?,?,?) ON DUPLICATE KEY UPDATE `Enable`=?, `Sound`=?";
+    private static final String MENTIONS_LOAD_QUERY = "SELECT * FROM `Mentions` WHERE `Name`=?";
 
     public StorageManager() {
         this.storageType = StorageType.valueOf(CensurePlugin.INSTANCE.getConfig().getString("StorageType").toUpperCase());
@@ -65,6 +69,7 @@ public final class StorageManager {
                         .setDatabase(configuration.getString("mysql.database"))
 
                         .createTable("CensureEnabled", "`Name` VARCHAR(256) NOT NULL PRIMARY KEY")
+                        .createTable("Mentions", "`Name` VARCHAR(256) NOT NULL PRIMARY KEY, `Enable` BOOLEAN NOT NULL, `Sound` TEXT NOT NULL")
                         .createTable("CensureWords", "`Name` VARCHAR(256) NOT NULL, `Word` TEXT NOT NULL, `Remove` BOOLEAN NOT NULL")
 
                         .build().getExecutor();
@@ -91,6 +96,9 @@ public final class StorageManager {
                     mysqlConnection.execute(true, DELETE_WORD_QUERY, censurePlayer.getPlayerName().toLowerCase(), word.toLowerCase());
                     mysqlConnection.execute(true, ADD_WORD_QUERY, censurePlayer.getPlayerName().toLowerCase(), word.toLowerCase(), false);
                 });
+
+                mysqlConnection.execute(true, MENTIONS_SAVE_QUERY, censurePlayer.getPlayerName().toLowerCase(), censurePlayer.isEnableMentions(), censurePlayer.getMentionsSound().name(),
+                        censurePlayer.isEnableMentions(), censurePlayer.getMentionsSound().name());
             }
         }
     }
@@ -129,6 +137,18 @@ public final class StorageManager {
 
                         censurePlayer.getAddedWordsList().add(word.toLowerCase());
                         if (!censurePlayer.getCensureWordsList().contains(word.toLowerCase())) censurePlayer.getCensureWordsList().add(word.toLowerCase());
+                    }
+
+                    return null;
+                }, censurePlayer.getPlayerName().toLowerCase());
+
+                mysqlConnection.executeQuery(true, MENTIONS_LOAD_QUERY, rs -> {
+
+                    if (rs.next()) {
+                        censurePlayer.setEnableMentions(rs.getBoolean("Enable"));
+
+                        Sound sound = Sound.valueOf(rs.getString("Sound"));
+                        censurePlayer.setMentionsSound(sound == null ? Sound.ENTITY_PLAYER_LEVELUP : sound);
                     }
 
                     return null;

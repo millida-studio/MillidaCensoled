@@ -2,9 +2,11 @@ package net.millida.command;
 
 import net.millida.CensurePlugin;
 import net.millida.command.api.SimpleCommand;
+import net.millida.inventory.impl.CensureInventory;
 import net.millida.player.CensurePlayer;
 import net.millida.storage.StorageManager;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,7 +14,7 @@ import org.bukkit.entity.Player;
 public class CensureCommand extends SimpleCommand {
 
     public CensureCommand() {
-        super("censure", "цензура");
+        super("censure", "цензура", "mentions");
 
         setOnlyPlayers(true);
     }
@@ -23,23 +25,18 @@ public class CensureCommand extends SimpleCommand {
         CensurePlayer censurePlayer = CensurePlayer.by(player);
 
         if (args.length == 0) {
-            if (!commandSender.hasPermission("censure.toggle")) {
+            if (!commandSender.hasPermission("censure.inventory")) {
                 commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
 
                 return;
             }
 
-            censurePlayer.setEnableCensure(!censurePlayer.isEnableCensure());
-            StorageManager.INSTANCE.savePlayer(censurePlayer);
-
-            commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("ToggleMessage")
-                    .replace("{action}", censurePlayer.isEnableCensure() ? "&aВключена" : "&cВыключена")));
+            new CensureInventory().openInventory(player);
 
             return;
         }
 
         switch (args[0].toLowerCase()) {
-
             case "add": {
                 if (!commandSender.hasPermission("censure.add")) {
                     commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
@@ -48,7 +45,13 @@ public class CensureCommand extends SimpleCommand {
                 }
 
                 if (args.length < 2) {
-                    commandSender.sendMessage(ChatColor.RED + "Ошибка, пишите /censure add <слово>");
+                    if (!commandSender.hasPermission("censure.inventory")) {
+                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+
+                        return;
+                    }
+
+                    new CensureInventory().openInventory(player);
                     return;
                 }
 
@@ -79,7 +82,13 @@ public class CensureCommand extends SimpleCommand {
                 }
 
                 if (args.length < 2) {
-                    commandSender.sendMessage(ChatColor.RED + "Ошибка, пишите /censure remove <слово>");
+                    if (!commandSender.hasPermission("censure.inventory")) {
+                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+
+                        return;
+                    }
+
+                    new CensureInventory().openInventory(player);
                     return;
                 }
 
@@ -97,8 +106,28 @@ public class CensureCommand extends SimpleCommand {
                 break;
             }
 
+            case "toggle": {
+                if (!commandSender.hasPermission("censure.toggle")) {
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                    return;
+                }
+
+                censurePlayer.setEnableCensure(!censurePlayer.isEnableCensure());
+                StorageManager.INSTANCE.savePlayer(censurePlayer);
+
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("ToggleMessage")
+                        .replace("{status}", censurePlayer.isEnableMentions() ? "§a✓" : "§c✖")));
+                return;
+            }
+
             default: {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("HelpMessage")));
+                if (!commandSender.hasPermission("censure.inventory")) {
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+
+                    return;
+                }
+
+                new CensureInventory().openInventory(player);
             }
         }
     }

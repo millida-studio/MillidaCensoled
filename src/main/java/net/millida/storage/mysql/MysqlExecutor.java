@@ -56,7 +56,6 @@ public final class MysqlExecutor {
             connection.refreshConnection();
 
             try (MysqlStatement mysqlStatement = new MysqlStatement(connection.getConnection(), sql, elements)) {
-
                 result.set(handler.handleResponse(mysqlStatement.getResultSet()));
             } catch (SQLException e) {
                 e.printStackTrace();

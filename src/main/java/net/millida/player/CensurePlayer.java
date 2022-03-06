@@ -5,6 +5,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import net.millida.storage.StorageManager;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -13,12 +15,15 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Getter
+@Setter
 public class CensurePlayer {
 
     private final String playerName;
 
-    @Setter
     private boolean enableCensure = true;
+    private boolean enableMentions = true;
+
+    private Sound mentionsSound = Sound.ENTITY_PLAYER_LEVELUP;
 
     private final List<String> censureWordsList = new LinkedList<>();
     private final List<String> addedWordsList = new LinkedList<>();
@@ -50,6 +55,14 @@ public class CensurePlayer {
         StorageManager.INSTANCE.savePlayer(this);
     }
 
+    public void setMentionsSound(@NonNull Sound sound) {
+        if (mentionsSound.equals(sound)) {
+            return;
+        }
+
+        this.mentionsSound = sound;
+        StorageManager.INSTANCE.savePlayer(this);
+    }
 
     public static final HashMap<String, CensurePlayer> CENSURE_PLAYER_MAP = new HashMap<>();
 
