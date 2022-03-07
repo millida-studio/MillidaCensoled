@@ -17,7 +17,7 @@ public final class MaterialsRegistry {
 
 	private static final char[] IGNORE_CHARS = {'-', '_', ' '};
 
-	private static final Map<String, Material> MATERIALS_BY_ALIAS = new HashMap<String, Material>();
+	private static final Map<String, Material> MATERIALS_BY_ALIAS = new HashMap<>();
 
 	private static final Collection<Material> AIR_MATERIALS = getExistingMaterials("AIR", "CAVE_AIR", "VOID_AIR");
 	private static final Collection<Material> SIGN_MATERIALS = getExistingMaterials("SIGN", "SIGN_POST", "WALL_SIGN");
@@ -46,7 +46,7 @@ public final class MaterialsRegistry {
 	}
 
 	public static Collection<Material> getExistingMaterials(String... materialEnumNames) {
-		Collection<Material> existingMaterials = new HashSet<Material>();
+		Collection<Material> existingMaterials = new HashSet<>();
 
 		for (String materialEnumName : materialEnumNames) {
 			try {
@@ -72,7 +72,7 @@ public final class MaterialsRegistry {
 
 	static {
 		for (Material material : Material.values()) {
-			addMaterialAlias(material.toString(), material);
+			addMaterialAlias(material.name(), material);
 
 			if (!useNewMaterialNames()) {
 				addMaterialAlias(String.valueOf(material.getId()), material);
@@ -82,6 +82,9 @@ public final class MaterialsRegistry {
 		if (!useNewMaterialNames()) {
 			tryAddMaterialAlias("WRITABLE_BOOK", "BOOK_AND_QUILL");
 			tryAddMaterialAlias("EXPERIENCE_BOTTLE", "EXP_BOTTLE");
+		} else {
+			addMaterialAlias("WRITABLE_BOOK", Material.WRITABLE_BOOK);
+			addMaterialAlias("EXPERIENCE_BOTTLE", Material.EXPERIENCE_BOTTLE);
 		}
 
 		tryAddMaterialAlias("iron bar", "IRON_FENCE");

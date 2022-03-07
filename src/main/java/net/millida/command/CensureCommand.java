@@ -26,7 +26,7 @@ public class CensureCommand extends SimpleCommand {
 
         if (args.length == 0) {
             if (!commandSender.hasPermission("censure.inventory")) {
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
 
                 return;
             }
@@ -39,14 +39,14 @@ public class CensureCommand extends SimpleCommand {
         switch (args[0].toLowerCase()) {
             case "add": {
                 if (!commandSender.hasPermission("censure.add")) {
-                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
 
                     return;
                 }
 
                 if (args.length < 2) {
                     if (!commandSender.hasPermission("censure.inventory")) {
-                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
 
                         return;
                     }
@@ -58,16 +58,16 @@ public class CensureCommand extends SimpleCommand {
                 String word = args[1].toLowerCase();
 
                 if (censurePlayer.getCensureWordsList().contains(word)) {
-                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("WordAlredyCensured")));
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("WordAlredyCensured")));
                     return;
                 }
 
                 if (word.length() < CensurePlugin.INSTANCE.getConfig().getInt("MinWordLenght") || word.length() > CensurePlugin.INSTANCE.getConfig().getInt("MaxWordLenght")) {
-                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("WordLenghtLimit")));
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("WordLenghtLimit")));
                     return;
                 }
 
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("AddedMessage"))
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("AddedMessage"))
                         .replace("{word}", word));
                 censurePlayer.addCensure(word);
 
@@ -76,14 +76,14 @@ public class CensureCommand extends SimpleCommand {
 
             case "remove": {
                 if (!commandSender.hasPermission("censure.remove")) {
-                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
 
                     return;
                 }
 
                 if (args.length < 2) {
                     if (!commandSender.hasPermission("censure.inventory")) {
-                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                        commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
 
                         return;
                     }
@@ -95,12 +95,12 @@ public class CensureCommand extends SimpleCommand {
                 String word = args[1].toLowerCase();
 
                 if (!censurePlayer.getCensureWordsList().contains(word)) {
-                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("WordNotCensured")));
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("WordNotCensured")));
                     return;
                 }
 
                 censurePlayer.removeCensure(word);
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("RemovedMessage"))
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("RemovedMessage"))
                         .replace("{word}", word));
 
                 break;
@@ -108,21 +108,21 @@ public class CensureCommand extends SimpleCommand {
 
             case "toggle": {
                 if (!commandSender.hasPermission("censure.toggle")) {
-                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
                     return;
                 }
 
                 censurePlayer.setEnableCensure(!censurePlayer.isEnableCensure());
                 StorageManager.INSTANCE.savePlayer(censurePlayer);
 
-                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("ToggleMessage")
+                commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("ToggleMessage")
                         .replace("{status}", censurePlayer.isEnableMentions() ? "§a✓" : "§c✖")));
                 return;
             }
 
             default: {
                 if (!commandSender.hasPermission("censure.inventory")) {
-                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
 
                     return;
                 }

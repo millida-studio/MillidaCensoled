@@ -15,22 +15,22 @@ import org.bukkit.metadata.FixedMetadataValue;
 public class WordListInventory extends SimplePaginatedCustomInventory {
 
     public WordListInventory() {
-        super(6, CensurePlugin.INSTANCE.getConfig().getString("Gui.Word.title"));
+        super(6, CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.title"));
     }
 
     @Override
     public void drawInventory(@NonNull Player player) {
         setItemMarkup(new InventoryBlockMarkup(6));
-        Material material = MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getConfig().getString("Gui.Word.material"));
+        Material material = MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.material"));
 
         CensurePlayer censurePlayer = CensurePlayer.by(player);
 
         for (String word : censurePlayer.getCensureWordsList()) {
             addItemToMarkup(ItemUtil.newBuilder(material)
-                    .setName(CensurePlugin.INSTANCE.getConfig().getString("Gui.Word.name")
+                    .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.name")
                             .replace("{word}", word))
 
-                    .setLore(CensurePlugin.INSTANCE.getConfig().getStringList("Gui.Word.lore"))
+                    .setLore(CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Word.lore"))
 
                     .build(), (customInventory, inventoryClickEvent) -> {
                 if (inventoryClickEvent.isLeftClick()) {
@@ -38,47 +38,47 @@ public class WordListInventory extends SimplePaginatedCustomInventory {
                 }
 
                 if (!player.hasPermission("censure.remove")) {
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("NoPermMessage")));
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
 
                     return;
                 }
 
                 censurePlayer.removeCensure(word);
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("RemovedMessage"))
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("RemovedMessage"))
                         .replace("{word}", word));
 
                 updateInventory(player);
             });
         }
 
-        drawItem(50, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getConfig().getString("Gui.Word.AddWordItem.material")))
+        drawItem(50, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.AddWordItem.material")))
 
-                .setDurability(CensurePlugin.INSTANCE.getConfig().getInt("Gui.Word.AddWordItem.data", 0))
-                .setName(CensurePlugin.INSTANCE.getConfig().getString("Gui.Word.AddWordItem.name"))
-                .setLore(CensurePlugin.INSTANCE.getConfig().getStringList("Gui.Word.AddWordItem.lore"))
+                .setDurability(CensurePlugin.INSTANCE.getLangConfiguration().getInt("Gui.Word.AddWordItem.data", 0))
+                .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.AddWordItem.name"))
+                .setLore(CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Word.AddWordItem.lore"))
 
                 .build(), (customInventory, inventoryClickEvent) -> {
             if (player.hasMetadata("censure_add")) {
                 return;
             }
 
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("AddWordMessage")));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("AddWordMessage")));
             player.setMetadata("censure_add", new FixedMetadataValue(CensurePlugin.INSTANCE, ""));
             player.closeInventory();
         });
 
         if (censurePlayer.getCensureWordsList().isEmpty()) {
-            drawItem(23, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getConfig().getString("Gui.Word.EmptyListItem.material")))
+            drawItem(23, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.EmptyListItem.material")))
 
-                    .setName(CensurePlugin.INSTANCE.getConfig().getString("Gui.Word.EmptyListItem.name"))
-                    .setLore(CensurePlugin.INSTANCE.getConfig().getStringList("Gui.Word.EmptyListItem.lore"))
+                    .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.EmptyListItem.name"))
+                    .setLore(CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Word.EmptyListItem.lore"))
 
                     .build());
         }
 
-        drawItem(46, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getConfig().getString("Gui.ExitItem.material")))
+        drawItem(46, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.ExitItem.material")))
 
-                .setName(CensurePlugin.INSTANCE.getConfig().getString("Gui.ExitItem.name"))
+                .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.ExitItem.name"))
 
                 .build(), (customInventory, inventoryClickEvent) -> {
             new CensureInventory().openInventory(player);

@@ -1,0 +1,85 @@
+CensuredWords:
+  - "fuck"
+  - "bitch"
+  - "shit"
+
+RemovedWords: []
+
+MentionsSounds:
+  - "ENTITY_PLAYER_LEVELUP;§aPlayer Level up"
+  - "BLOCK_ANVIL_HIT;§aAnvil hit sound"
+  - "BLOCK_FIRE_EXTINGUISH;§cfire extinguish"
+
+WordLenghtLimit: "§cThe word must not be less than 3 and not more than 6 characters!"
+WordNotCensured: "§cThis word is not censored"
+WordAlredyCensured: "§cThis word is already censored"
+NoPermMessage: "§cYou don't have enough permissions!"
+ToggleMessage: "§fCensure: {status}"
+ToggleMentionMessage: "§fMentions: {status}"
+AddedMessage: "§fThe word {word} has been successfully censored"
+RemovedMessage: "§fThe word {word} was successfully removed from censored"
+AddWordMessage: "§fWrite a word in the chat in order to censor it"
+
+Gui:
+  Censure:
+    title: "§0Censure Menu"
+    CensureInfoItem:
+      slot: 11
+      material: BOOK
+      name: "§6CensureInfo"
+      lore:
+        - "§fCensure Status: {status}"
+        - ""
+        - "§eClick to chage status"
+    CensureWordListItem:
+      slot: 12
+      material: WRITABLE_BOOK
+      name: "§6Censure Word List"
+      lore:
+        - ""
+        - "§eClick to open inventory"
+    MentionInfoItem:
+      slot: 16
+      material: EXPERIENCE_BOTTLE
+      name: "§6MentionInfo"
+      lore:
+        - "§fMention Status: {status}"
+        - ""
+        - "§eClick to chage status"
+    MentionSoundItem:
+      slot: 17
+      material: NOTE_BLOCK
+      name: "§6Mention Sound List"
+      lore:
+        - ""
+        - "§eClick to open inventory"
+  Sound:
+    title: "§0Sound Menu"
+    material: jukebox
+    disabled-lore:
+      - ""
+      - "§eRight-Click to play sound"
+      - "§eLeft-Click to use sound"
+    enabled-lore:
+      - "§eSound alredy in use"
+  Word:
+    title: "§0Word List Menu"
+    material: "book"
+    name: "§6{word}"
+    lore:
+      - ""
+      - "§eRight-Click to remove word from list"
+    AddWordItem:
+      material: "name_tag"
+      name: "§6Add Word"
+      lore:
+        - "§eClick to add word"
+    EmptyListItem:
+      material: "glass_bottle"
+      name: "§cOoops"
+      lore:
+        - "§cList is empty..."
+
+  ExitItem:
+    material: arrow
+    name: "§cExit"

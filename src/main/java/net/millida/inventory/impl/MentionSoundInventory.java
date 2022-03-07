@@ -15,17 +15,17 @@ import org.bukkit.entity.Player;
 public class MentionSoundInventory extends SimplePaginatedCustomInventory {
 
     public MentionSoundInventory() {
-        super(6, CensurePlugin.INSTANCE.getConfig().getString("Gui.Sound.title"));
+        super(6, CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Sound.title"));
     }
 
     @Override
     public void drawInventory(@NonNull Player player) {
         setItemMarkup(new InventoryBlockMarkup(6));
-        Material material = MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getConfig().getString("Gui.Sound.material"));
+        Material material = MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Sound.material"));
 
         CensurePlayer censurePlayer = CensurePlayer.by(player);
 
-        for (String soundName : CensurePlugin.INSTANCE.getConfig().getStringList("MentionsSounds")) {
+        for (String soundName : CensurePlugin.INSTANCE.getLangConfiguration().getStringList("MentionsSounds")) {
             Sound sound = Sound.valueOf(soundName.split(";")[0]);
             String soundColoredName = soundName.split(";")[1];
 
@@ -40,8 +40,8 @@ public class MentionSoundInventory extends SimplePaginatedCustomInventory {
                     .setGlowing(censurePlayer.getMentionsSound().equals(sound))
 
                     .setLore(!censurePlayer.getMentionsSound().equals(sound)
-                            ? CensurePlugin.INSTANCE.getConfig().getStringList("Gui.Sound.disabled-lore")
-                            : CensurePlugin.INSTANCE.getConfig().getStringList("Gui.Sound.enabled-lore"))
+                            ? CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Sound.disabled-lore")
+                            : CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Sound.enabled-lore"))
 
                     .build(), (customInventory, inventoryClickEvent) -> {
                 if (inventoryClickEvent.isRightClick()) {
@@ -58,9 +58,9 @@ public class MentionSoundInventory extends SimplePaginatedCustomInventory {
             });
         }
 
-        drawItem(46, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getConfig().getString("Gui.ExitItem.material")))
+        drawItem(46, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.ExitItem.material")))
 
-                .setName(CensurePlugin.INSTANCE.getConfig().getString("Gui.ExitItem.name"))
+                .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.ExitItem.name"))
 
                 .build(), (customInventory, inventoryClickEvent) -> {
             new CensureInventory().openInventory(player);

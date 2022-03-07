@@ -42,6 +42,10 @@ public class ChatListener extends PacketAdapter
 
         WrappedChatComponent wrappedChatComponent = event.getPacket().getChatComponents().read(0);
 
+        if (wrappedChatComponent == null) {
+            return;
+        }
+
         BaseComponent[] baseComponents = ComponentSerializer.parse(wrappedChatComponent.getJson());
         String newMessage = baseComponents[0].toLegacyText();
 
