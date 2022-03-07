@@ -1,16 +1,6 @@
-CensuredWords:
-  - "хуй"
-  - "блять"
-  - "сосите"
-
 RemovedWords:
   - "оскорблять"
   - "корабля"
-
-MentionsSounds:
-  - "ENTITY_PLAYER_LEVELUP;§aPlayer Level up"
-  - "BLOCK_ANVIL_HIT;§aПадение наковальник"
-  - "BLOCK_FIRE_EXTINGUISH;§cТушение огня"
 
 WordLenghtLimit: "§cСлово должно быть не менее 3 и не более 6 символов!"
 WordNotCensured: "§cЭто слово не подвергается цензуре"

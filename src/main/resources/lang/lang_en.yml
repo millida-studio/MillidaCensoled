@@ -1,14 +1,4 @@
-CensuredWords:
-  - "fuck"
-  - "bitch"
-  - "shit"
-
 RemovedWords: []
-
-MentionsSounds:
-  - "ENTITY_PLAYER_LEVELUP;§aPlayer Level up"
-  - "BLOCK_ANVIL_HIT;§aAnvil hit sound"
-  - "BLOCK_FIRE_EXTINGUISH;§cfire extinguish"
 
 WordLenghtLimit: "§cThe word must not be less than 3 and not more than 6 characters!"
 WordNotCensured: "§cThis word is not censored"

@@ -20,6 +20,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ChatListener extends PacketAdapter
         implements Listener {
@@ -62,12 +64,12 @@ public class ChatListener extends PacketAdapter
         boolean censured = false;
         if (censurePlayer.isEnableCensure()) {
             for (String word : censurePlayer.getCensureWordsList()) {
-                if (!newMessage.contains(word)) {
+                if (!newMessage.toLowerCase().contains(word.toLowerCase())) {
                     continue;
                 }
 
                 for (String arg : newMessage.split(" ")) {
-                    if (!arg.contains(word)) {
+                    if (!arg.toLowerCase().contains(word.toLowerCase())) {
                         continue;
                     }
 
@@ -76,7 +78,8 @@ public class ChatListener extends PacketAdapter
                     }
 
                     censured = true;
-                    newMessage = newMessage.replace(word, StringUtils.repeat(CensurePlugin.INSTANCE.getConfig().getString("CensureChar"), word.length()));
+                    newMessage = Pattern.compile(word, Pattern.LITERAL | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(newMessage)
+                            .replaceAll(Matcher.quoteReplacement(StringUtils.repeat(CensurePlugin.INSTANCE.getConfig().getString("CensureChar"), word.length())));
                 }
             }
         }
@@ -96,25 +99,25 @@ public class ChatListener extends PacketAdapter
         if (!event.getPlayer().hasMetadata("censure_add")) {
             return;
         }
+        event.setCancelled(true);
 
         CensurePlayer censurePlayer = CensurePlayer.by(event.getPlayer());
         String word = event.getMessage().split(" ")[0];
 
         if (censurePlayer.getCensureWordsList().contains(word)) {
-            event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("WordAlredyCensured")));
+            event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("WordAlredyCensured")));
             return;
         }
 
         if (word.length() < CensurePlugin.INSTANCE.getConfig().getInt("MinWordLenght") || word.length() > CensurePlugin.INSTANCE.getConfig().getInt("MaxWordLenght")) {
-            event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("WordLenghtLimit")));
+            event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("WordLenghtLimit")));
             return;
         }
 
-        event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getConfig().getString("AddedMessage"))
+        event.getPlayer().sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("AddedMessage"))
                 .replace("{word}", word));
         censurePlayer.addCensure(word);
 
-        event.setCancelled(true);
         event.getPlayer().removeMetadata("censure_add", CensurePlugin.INSTANCE);
     }
 

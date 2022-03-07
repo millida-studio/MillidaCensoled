@@ -1,6 +1,7 @@
-Lang: "eng"
+Lang: "en"
 
-StorageType: mysql #MYSQL; YML
+#MYSQL; YML
+StorageType: mysql
 mysql:
   host: 'localhost'
   port: 3306
@@ -8,11 +9,24 @@ mysql:
   pass: ''
   database: 'censure'
 
+#List of sounds used for Mentions
+#Sound;ColoredName
+MentionsSounds:
+  - "ENTITY_PLAYER_LEVELUP;§aPlayer Level up"
+  - "BLOCK_ANVIL_HIT;§aПадение наковальник"
+  - "BLOCK_FIRE_EXTINGUISH;§cТушение огня"
+
+#Minimal word lenght for censure
 MinWordLenght: 3
+#Maximum word lenght for censure
 MaxWordLenght: 6
 
+#Do mentions work on the server
 MentionsEnable: true
-DefaultEnableMentions: true #Initially, mentions work for all players.
+#Initially, mentions work for all players.
+DefaultEnableMentions: true
 
+#Character to replace censored words
 CensureChar: '*'
-HoverEnable: true #Shows the original post form when hovering over the text
+#Shows the original post form when hovering over the text
+HoverEnable: true

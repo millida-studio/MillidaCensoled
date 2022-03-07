@@ -74,10 +74,6 @@ public final class MaterialsRegistry {
 		for (Material material : Material.values()) {
 			addMaterialAlias(material.name(), material);
 
-			if (material == Material.WRITABLE_BOOK) {
-				System.out.println("true");
-			}
-
 			if (!useNewMaterialNames()) {
 				addMaterialAlias(String.valueOf(material.getId()), material);
 			}

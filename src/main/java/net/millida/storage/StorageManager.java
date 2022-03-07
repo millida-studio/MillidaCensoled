@@ -104,9 +104,7 @@ public final class StorageManager {
     }
 
     public void loadPlayer(@NonNull CensurePlayer censurePlayer) {
-        censurePlayer.getCensureWordsList().addAll(CensurePlugin.INSTANCE.getLangConfiguration().getStringList("CensuredWords").stream()
-                .map(String::toLowerCase)
-                .collect(Collectors.toList()));
+        censurePlayer.getCensureWordsList().addAll(CensurePlugin.INSTANCE.getDefaultCensuredWords());
         censurePlayer.getRemovedWordsList().addAll(CensurePlugin.INSTANCE.getLangConfiguration().getStringList("RemovedWords").stream()
                 .map(String::toLowerCase)
                 .collect(Collectors.toList()));

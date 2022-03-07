@@ -2,6 +2,8 @@ package net.millida;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import lombok.Getter;
+import lombok.SneakyThrows;
+import lombok.val;
 import net.millida.command.CensureCommand;
 import net.millida.command.api.SimpleCommandManager;
 import net.millida.inventory.api.InventoryListener;
@@ -15,6 +17,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 import net.millida.inventory.api.InventoryManager;
 
 import java.io.File;
+import java.io.FileReader;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Scanner;
 
 public class CensurePlugin extends JavaPlugin {
 
@@ -29,6 +36,9 @@ public class CensurePlugin extends JavaPlugin {
     protected FileConfiguration langConfiguration;
     private final File langFolder = new File(getDataFolder(), "lang");
 
+    @Getter
+    private final List<String> defaultCensuredWords = new LinkedList<>();
+
 
     @Override
     public void onEnable() {
@@ -36,11 +46,12 @@ public class CensurePlugin extends JavaPlugin {
 
         saveLangFolder();
 
-        saveResource("lang" + File.separator + "eng.yml", false);
-        saveResource("lang" + File.separator + "ru.yml", false);
+        saveResource("bad-words.txt", false);
+        saveResource("lang" + File.separator + "lang_en.yml", false);
+        saveResource("lang" + File.separator + "lang_ru.yml", false);
 
+        loadBadWords();
         loadLangConfiguration();
-
 
         StorageManager.INSTANCE.init(getConfig());
 
@@ -65,14 +76,28 @@ public class CensurePlugin extends JavaPlugin {
     }
 
     protected void loadLangConfiguration() {
-        String lang = getConfig().getString("Lang", "eng").toLowerCase();
+        String lang = getConfig().getString("Lang", "en").toLowerCase();
 
-        File langFile = new File(langFolder, lang + ".yml");
+        File langFile = new File(langFolder, "lang_" + lang + ".yml");
         if (!langFile.exists()) {
-            Bukkit.getLogger().info(ChatColor.YELLOW + "Lang file " + lang + ".yml does not exists! Set default ENG lang");
-            langFile = new File(langFolder,"eng.yml");
+            Bukkit.getLogger().info(ChatColor.YELLOW + "Lang file lang_" + lang + ".yml does not exists! Set default English lang");
+            langFile = new File(langFolder,"lang_en.yml");
         }
 
         this.langConfiguration = YamlConfiguration.loadConfiguration(langFile);
+    }
+
+    @SneakyThrows
+    protected void loadBadWords() {
+        FileReader badWordsFileReader = new FileReader(new File(getDataFolder(), "bad-words.txt"));
+        Scanner scanner = new Scanner(badWordsFileReader);
+
+        while (scanner.hasNextLine()) {
+            String badWordLine = scanner.nextLine();
+
+            defaultCensuredWords.addAll(Arrays.asList(badWordLine.toLowerCase().split(", ")));
+        }
+
+        badWordsFileReader.close();
     }
 }
