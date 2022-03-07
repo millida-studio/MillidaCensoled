@@ -27,11 +27,18 @@ public class CensurePlugin extends JavaPlugin {
 
     @Getter
     protected FileConfiguration langConfiguration;
+    private final File langFolder = new File(getDataFolder(), "lang");
+
 
     @Override
     public void onEnable() {
         saveDefaultConfig();
-        saveResource(getDataFolder() + File.separator + "lang" + File.separatorChar + "eng.yml", false);
+
+        saveLangFolder();
+
+        saveResource("lang" + File.separator + "eng.yml", false);
+        saveResource("lang" + File.separator + "ru.yml", false);
+
         loadLangConfiguration();
 
 
@@ -39,6 +46,14 @@ public class CensurePlugin extends JavaPlugin {
 
         commandManager.registerCommand(new CensureCommand());
         registerListener();
+    }
+
+    private void saveLangFolder() {
+        if (langFolder.exists()) {
+            return;
+        }
+
+        langFolder.mkdir();
     }
 
     protected void registerListener() {
@@ -52,10 +67,10 @@ public class CensurePlugin extends JavaPlugin {
     protected void loadLangConfiguration() {
         String lang = getConfig().getString("Lang", "eng").toLowerCase();
 
-        File langFile = new File(getDataFolder() + File.separator + "lang", lang + ".yml");
+        File langFile = new File(langFolder, lang + ".yml");
         if (!langFile.exists()) {
             Bukkit.getLogger().info(ChatColor.YELLOW + "Lang file " + lang + ".yml does not exists! Set default ENG lang");
-            langFile = new File(getDataFolder() + File.separator + "lang","eng.yml");
+            langFile = new File(langFolder,"eng.yml");
         }
 
         this.langConfiguration = YamlConfiguration.loadConfiguration(langFile);

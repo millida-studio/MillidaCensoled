@@ -1,0 +1,87 @@
+CensuredWords:
+  - "хуй"
+  - "блять"
+  - "сосите"
+
+RemovedWords:
+  - "оскорблять"
+  - "корабля"
+
+MentionsSounds:
+  - "ENTITY_PLAYER_LEVELUP;§aPlayer Level up"
+  - "BLOCK_ANVIL_HIT;§aПадение наковальник"
+  - "BLOCK_FIRE_EXTINGUISH;§cТушение огня"
+
+WordLenghtLimit: "§cСлово должно быть не менее 3 и не более 6 символов!"
+WordNotCensured: "§cЭто слово не подвергается цензуре"
+WordAlredyCensured: "§cЭто слово уже цензурировано"
+NoPermMessage: "§cУ вас недостаточно прав!"
+ToggleMessage: "§fЦензура: {status}"
+ToggleMentionMessage: "§fУпоминания: {status}"
+AddedMessage: "§fСлово {word} успешно добавлено в цензуру"
+RemovedMessage: "§fСлово {word} успешно удалено из цензуры"
+AddWordMessage: "§fНапиши слово чат, чтобы зацензурить его"
+
+Gui:
+  Censure:
+    title: "§0Меню Цензуры"
+    CensureInfoItem:
+      slot: 11
+      material: BOOK
+      name: "§6Информация о Цензуре"
+      lore:
+        - "§fСтатус цензуры: {status}"
+        - ""
+        - "§eНажмите, чтобы изменить статус"
+    CensureWordListItem:
+      slot: 12
+      material: WRITABLE_BOOK
+      name: "§6Список зацензуренных слов"
+      lore:
+        - ""
+        - "§eНажмите, чтобы посмотреть"
+    MentionInfoItem:
+      slot: 16
+      material: EXPERIENCE_BOTTLE
+      name: "§6Информация о Упоминания"
+      lore:
+        - "§fСтатус Упоминаний: {status}"
+        - ""
+        - "§eНажмите, чтобы изменить статус"
+    MentionSoundItem:
+      slot: 17
+      material: NOTE_BLOCK
+      name: "§6Список звуков Упоминаний"
+      lore:
+        - ""
+        - "§eНажмите, чтобы посмотреть"
+  Sound:
+    title: "§0Звуки"
+    material: jukebox
+    disabled-lore:
+      - ""
+      - "§eПКМ, чтобы послушать звук"
+      - "§eЛКМ, чтобы установить звук"
+    enabled-lore:
+      - "§eЗвук уже используется!"
+  Word:
+    title: "§0Запрещённые слова"
+    material: "book"
+    name: "§6{word}"
+    lore:
+      - ""
+      - "§eПКМ, чтобы удалить слово из списка"
+    AddWordItem:
+      material: "name_tag"
+      name: "§6Добавить слово"
+      lore:
+        - "§eНажмите, чтобы добавить слово"
+    EmptyListItem:
+      material: "glass_bottle"
+      name: "§cУпсссс....."
+      lore:
+        - "§cСписок пуст"
+
+  ExitItem:
+    material: arrow
+    name: "§cНазад"

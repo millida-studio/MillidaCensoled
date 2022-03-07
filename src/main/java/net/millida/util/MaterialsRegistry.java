@@ -74,6 +74,10 @@ public final class MaterialsRegistry {
 		for (Material material : Material.values()) {
 			addMaterialAlias(material.name(), material);
 
+			if (material == Material.WRITABLE_BOOK) {
+				System.out.println("true");
+			}
+
 			if (!useNewMaterialNames()) {
 				addMaterialAlias(String.valueOf(material.getId()), material);
 			}
@@ -82,9 +86,6 @@ public final class MaterialsRegistry {
 		if (!useNewMaterialNames()) {
 			tryAddMaterialAlias("WRITABLE_BOOK", "BOOK_AND_QUILL");
 			tryAddMaterialAlias("EXPERIENCE_BOTTLE", "EXP_BOTTLE");
-		} else {
-			addMaterialAlias("WRITABLE_BOOK", Material.WRITABLE_BOOK);
-			addMaterialAlias("EXPERIENCE_BOTTLE", Material.EXPERIENCE_BOTTLE);
 		}
 
 		tryAddMaterialAlias("iron bar", "IRON_FENCE");
