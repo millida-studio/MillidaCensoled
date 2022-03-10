@@ -88,24 +88,10 @@
         </dependency>
 
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.20</version>
-            <scope>compile</scope>
-        </dependency>
-
-        <dependency>
             <groupId>com.github.azbh111</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>4.4.0</version>
             <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>net.sf.trove4j</groupId>
-            <artifactId>trove4j</artifactId>
-            <version>3.0.3</version>
-            <scope>compile</scope>
         </dependency>
 
         <dependency>

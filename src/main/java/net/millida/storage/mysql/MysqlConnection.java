@@ -1,6 +1,6 @@
 package net.millida.storage.mysql;
 
-import com.mysql.cj.jdbc.MysqlDataSource;
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import lombok.Getter;
 
 import java.sql.Connection;

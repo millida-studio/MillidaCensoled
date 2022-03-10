@@ -2,8 +2,6 @@ package net.millida.inventory.api;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import gnu.trove.map.TIntObjectMap;
-import gnu.trove.map.hash.TIntObjectHashMap;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +14,7 @@ import net.millida.inventory.api.handler.impl.InventoryUpdateHandler;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 
 public interface CustomInventory {
 
@@ -129,7 +128,7 @@ public interface CustomInventory {
         private final int inventorySize, inventoryRows;
 
         private final Multimap<Class<? extends InventoryHandler>, InventoryHandler> inventoryHandlerMap   = HashMultimap.create();
-        private final TIntObjectMap<InventoryItem> inventoryItemMap                                            = new TIntObjectHashMap<>();
+        private final HashMap<Integer, InventoryItem> inventoryItemMap                                    = new HashMap<>();
 
 
         public <T extends InventoryHandler> void addHandler(@NonNull Class<T> handlerClass,

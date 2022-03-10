@@ -45,7 +45,7 @@ public abstract class SimpleCustomInventory implements CustomInventory {
         closeInventory(player);
         drawInventory(player);
 
-        for (InventoryItem inventoryItem : inventoryInfo.getInventoryItemMap().valueCollection()) {
+        for (InventoryItem inventoryItem : inventoryInfo.getInventoryItemMap().values()) {
 
             inventory.setItem(inventoryItem.getSlot(), inventoryItem.getItemStack());
         }
@@ -74,7 +74,7 @@ public abstract class SimpleCustomInventory implements CustomInventory {
         clearInventory();
         drawInventory(player);
 
-        for (InventoryItem inventoryItem : inventoryInfo.getInventoryItemMap().valueCollection()) {
+        for (InventoryItem inventoryItem : inventoryInfo.getInventoryItemMap().values()) {
 
             inventory.setItem(inventoryItem.getSlot(), inventoryItem.getItemStack());
         }

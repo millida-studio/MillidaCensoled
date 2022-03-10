@@ -132,7 +132,7 @@ public abstract class SimplePaginatedCustomInventory implements CustomInventory 
         closeInventory(player);
         drawPage(player);
 
-        for (InventoryItem inventoryItem : inventoryInfo.getInventoryItemMap().valueCollection()) {
+        for (InventoryItem inventoryItem : inventoryInfo.getInventoryItemMap().values()) {
 
             inventory.setItem(inventoryItem.getSlot(), inventoryItem.getItemStack());
         }
@@ -160,7 +160,7 @@ public abstract class SimplePaginatedCustomInventory implements CustomInventory 
     public void updateInventory(@NonNull Player player) {
         drawPage(player);
 
-        for (InventoryItem inventoryItem : inventoryInfo.getInventoryItemMap().valueCollection()) {
+        for (InventoryItem inventoryItem : inventoryInfo.getInventoryItemMap().values()) {
 
             inventory.setItem(inventoryItem.getSlot(), inventoryItem.getItemStack());
         }

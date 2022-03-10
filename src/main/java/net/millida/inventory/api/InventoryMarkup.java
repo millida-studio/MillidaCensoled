@@ -1,10 +1,10 @@
 package net.millida.inventory.api;
 
-import gnu.trove.list.TIntList;
+import java.util.List;
 
 public interface InventoryMarkup {
 
-    TIntList getMarkupList();
+    List<Integer> getMarkupList();
 
     void addHorizontalRow(int rowIndex);
     void addHorizontalRow(int rowIndex, int tabSize);

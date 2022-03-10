@@ -1,11 +1,12 @@
 package net.millida.inventory.api.markup;
 
-import gnu.trove.list.TIntList;
-import gnu.trove.list.linked.TIntLinkedList;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import net.millida.inventory.api.InventoryMarkup;
 import net.millida.util.NumberUtil;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @RequiredArgsConstructor
 public class InventoryStandardMarkup implements InventoryMarkup {
@@ -13,7 +14,7 @@ public class InventoryStandardMarkup implements InventoryMarkup {
     private final int inventoryRows;
 
     @Getter
-    private final TIntList markupList = new TIntLinkedList();
+    private final List<Integer> markupList = new LinkedList<>();
 
 
     @Override

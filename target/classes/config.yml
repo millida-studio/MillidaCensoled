@@ -9,13 +9,6 @@ mysql:
   pass: ''
   database: 'censure'
 
-#List of sounds used for Mentions
-#Sound;ColoredName
-MentionsSounds:
-  - "ENTITY_PLAYER_LEVELUP;§aPlayer Level up"
-  - "BLOCK_ANVIL_HIT;§aПадение наковальник"
-  - "BLOCK_FIRE_EXTINGUISH;§cТушение огня"
-
 #Minimal word lenght for censure
 MinWordLenght: 3
 #Maximum word lenght for censure

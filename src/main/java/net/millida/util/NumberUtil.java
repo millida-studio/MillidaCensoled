@@ -1,13 +1,13 @@
 package net.millida.util;
 
-import gnu.trove.map.TObjectIntMap;
-import gnu.trove.map.hash.TObjectIntHashMap;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.UtilityClass;
 
+import java.util.HashMap;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -322,58 +322,6 @@ public class NumberUtil {
     public String getTime(long millis) {
         return getTime((int) millis / 1000);
     }
-
-    /**
-     * Парсит такие значения, как 5d, 3m, 50s и т.д.
-     *
-     * @param time   - значения, которое нужно парсить
-     * @param unitTo - в какую единицу измерения времени парсить
-     * @author GitCoder
-     */
-    public long parseTimeToMillis(@NonNull String time, @NonNull java.util.concurrent.TimeUnit unitTo) {
-        if (time.startsWith("-a")) {
-            return -1;
-        }
-
-        Matcher matcher = TIME_TO_MILLIS_PATTERN.matcher(time);
-        TObjectIntMap<java.util.concurrent.TimeUnit> values = new TObjectIntHashMap<>();
-
-        while (matcher.find()) {
-            for (int i = 1; i <= 7; i++) {
-                String value = matcher.group(i);
-
-                if (value == null || value.isEmpty()) {
-                    continue;
-                }
-
-                java.util.concurrent.TimeUnit unit = java.util.concurrent.TimeUnit.values()[i - 1];
-                int intValue = Integer.parseInt(value);
-
-                values.adjustOrPutValue(unit, intValue, intValue);
-                break;
-            }
-        }
-
-        if (values.isEmpty()) {
-            throw new IllegalArgumentException("Illegal Date");
-        }
-
-        AtomicLong total = new AtomicLong();
-
-        values.forEachEntry((timeUnit, value) -> {
-            total.addAndGet(unitTo.convert(value, timeUnit));
-
-            return true;
-        });
-
-        if (total.get() <= 0) {
-            throw new IllegalArgumentException("Illegal Date");
-        }
-
-        return total.get();
-    }
-
-
     @RequiredArgsConstructor
     @Getter
     public enum NumberTimeUnit {
