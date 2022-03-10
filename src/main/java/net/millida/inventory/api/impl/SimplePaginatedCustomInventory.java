@@ -11,7 +11,6 @@ import net.millida.inventory.api.item.InventoryClickItem;
 import net.millida.inventory.api.item.InventorySelectItem;
 import net.millida.util.ItemUtil;
 import org.bukkit.Bukkit;
-import org.bukkit.Color;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;

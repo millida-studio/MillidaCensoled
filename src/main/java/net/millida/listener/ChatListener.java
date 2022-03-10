@@ -8,6 +8,7 @@ import lombok.NonNull;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
 import net.millida.CensurePlugin;
 import net.millida.player.CensurePlayer;
@@ -42,14 +43,19 @@ public class ChatListener extends PacketAdapter
             return;
         }
 
-        WrappedChatComponent wrappedChatComponent = event.getPacket().getChatComponents().read(0);
+        WrappedChatComponent wrappedChatComponent =
+                event.getPacket().getChatComponents().read(0);
 
         if (wrappedChatComponent == null) {
+            Bukkit.getLogger().info(ChatColor.RED + "ChatComponent is null");
+            Bukkit.getLogger().info(event.getPacket().getChatComponents().read(0).getJson());
             return;
         }
 
         BaseComponent[] baseComponents = ComponentSerializer.parse(wrappedChatComponent.getJson());
-        String newMessage = baseComponents[0].toLegacyText();
+
+        String message = baseComponents[0].toLegacyText();
+        String newMessage = String.valueOf(message);
 
         if (censurePlayer.isEnableMentions() && newMessage.contains(player.getName())) {
             if (lastSendedMessage.get(player) == null || !newMessage.contains(lastSendedMessage.get(player))) {
@@ -84,12 +90,14 @@ public class ChatListener extends PacketAdapter
             }
         }
 
-        ComponentBuilder censureComponentBuilder = new ComponentBuilder(newMessage);
+        baseComponents = TextComponent.fromLegacyText(newMessage);
         if (censured && CensurePlugin.INSTANCE.getConfig().getBoolean("HoverEnable")) {
-            censureComponentBuilder.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(baseComponents[0].toLegacyText()).create()));
+            for (BaseComponent baseComponent : baseComponents) {
+                baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(message)));
+            }
         }
 
-        event.getPacket().getChatComponents().write(0, WrappedChatComponent.fromJson(ComponentSerializer.toString(censureComponentBuilder.create())));
+        event.getPacket().getChatComponents().write(0, WrappedChatComponent.fromJson(ComponentSerializer.toString(baseComponents)));
     }
 
     @EventHandler

@@ -26,7 +26,7 @@ public class ItemUtil {
     public final Material EMPTY_ITEM_TYPE       = Material.AIR;
 
 
-    public ItemStack getNamedItemStack(@NonNull Material material, int durability,
+    public static ItemStack getNamedItemStack(@NonNull Material material, int durability,
                                        @NonNull String displayName) {
 
         return newBuilder(material)
@@ -36,7 +36,7 @@ public class ItemUtil {
                 .build();
     }
 
-    public ItemStack getNamedItemStack(@NonNull ItemStack itemStack,
+    public static ItemStack getNamedItemStack(@NonNull ItemStack itemStack,
                                        @NonNull String displayName) {
 
         return newBuilder(itemStack)
@@ -45,7 +45,7 @@ public class ItemUtil {
                 .build();
     }
 
-    public ItemStack getNamedItemStack(@NonNull MaterialData materialData,
+    public static ItemStack getNamedItemStack(@NonNull MaterialData materialData,
                                        @NonNull String displayName) {
 
         return newBuilder(materialData.toItemStack(1))
@@ -55,11 +55,11 @@ public class ItemUtil {
     }
 
 
-    public ItemStack getPotion(@NonNull PotionEffect... potionEffects) {
+    public static ItemStack getPotion(@NonNull PotionEffect... potionEffects) {
         return getColouredPotion(Color.PURPLE, potionEffects);
     }
 
-    public ItemStack getColouredPotion(@NonNull Color potionColor,
+    public static ItemStack getColouredPotion(@NonNull Color potionColor,
                                        @NonNull PotionEffect... potionEffects) {
 
         ItemBuilder itemBuilder = newBuilder(Material.POTION);
@@ -73,19 +73,19 @@ public class ItemUtil {
     }
 
 
-    public ItemBuilder newBuilder() {
+    public static ItemBuilder newBuilder() {
         return newBuilder(EMPTY_ITEM_TYPE);
     }
 
-    public ItemBuilder newBuilder(@NonNull MaterialData materialData) {
+    public static ItemBuilder newBuilder(@NonNull MaterialData materialData) {
         return new ItemBuilder(materialData.toItemStack(1));
     }
 
-    public ItemBuilder newBuilder(@NonNull Material material) {
+    public static ItemBuilder newBuilder(@NonNull Material material) {
         return new ItemBuilder(new ItemStack(material));
     }
 
-    public ItemBuilder newBuilder(@NonNull ItemStack itemStack) {
+    public static ItemBuilder newBuilder(@NonNull ItemStack itemStack) {
         return new ItemBuilder(itemStack.clone());
     }
 

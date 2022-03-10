@@ -51,21 +51,23 @@ public class WordListInventory extends SimplePaginatedCustomInventory {
             });
         }
 
-        drawItem(50, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.AddWordItem.material")))
+        if (player.hasPermission("censure.add")) {
+            drawItem(50, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.AddWordItem.material")))
 
-                .setDurability(CensurePlugin.INSTANCE.getLangConfiguration().getInt("Gui.Word.AddWordItem.data", 0))
-                .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.AddWordItem.name"))
-                .setLore(CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Word.AddWordItem.lore"))
+                    .setDurability(CensurePlugin.INSTANCE.getLangConfiguration().getInt("Gui.Word.AddWordItem.data", 0))
+                    .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.AddWordItem.name"))
+                    .setLore(CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Word.AddWordItem.lore"))
 
-                .build(), (customInventory, inventoryClickEvent) -> {
-            if (player.hasMetadata("censure_add")) {
-                return;
-            }
+                    .build(), (customInventory, inventoryClickEvent) -> {
+                if (player.hasMetadata("censure_add")) {
+                    return;
+                }
 
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("AddWordMessage")));
-            player.setMetadata("censure_add", new FixedMetadataValue(CensurePlugin.INSTANCE, ""));
-            player.closeInventory();
-        });
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("AddWordMessage")));
+                player.setMetadata("censure_add", new FixedMetadataValue(CensurePlugin.INSTANCE, ""));
+                player.closeInventory();
+            });
+        }
 
         if (censurePlayer.getCensureWordsList().isEmpty()) {
             drawItem(23, ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Word.EmptyListItem.material")))

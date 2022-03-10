@@ -9,11 +9,9 @@ import net.millida.storage.mysql.MysqlExecutor;
 import net.millida.storage.yml.impl.PlayerDataConfiguration;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
-import java.sql.ResultSet;
 import java.util.stream.Collectors;
 
 @Getter

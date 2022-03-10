@@ -1,3 +1,11 @@
+#List of sounds used for Mentions
+#Sound;ColoredName
+MentionsSounds:
+  - "ENTITY_PLAYER_LEVELUP;§aPlayer Level up"
+  - "BLOCK_ANVIL_HIT;§aAnvil hit"
+  - "BLOCK_FIRE_EXTINGUISH;§cFire extinguish"
+
+
 RemovedWords: []
 
 WordLenghtLimit: "§cThe word must not be less than 3 and not more than 6 characters!"

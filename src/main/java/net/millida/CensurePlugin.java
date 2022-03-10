@@ -3,12 +3,12 @@ package net.millida;
 import com.comphenix.protocol.ProtocolLibrary;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import lombok.val;
 import net.millida.command.CensureCommand;
 import net.millida.command.api.SimpleCommandManager;
 import net.millida.inventory.api.InventoryListener;
 import net.millida.listener.ChatListener;
 import net.millida.storage.StorageManager;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -39,9 +39,14 @@ public class CensurePlugin extends JavaPlugin {
     @Getter
     private final List<String> defaultCensuredWords = new LinkedList<>();
 
+    private final static int PLUGIN_ID = 14575;
+
 
     @Override
     public void onEnable() {
+        //Хуй его пойми что с этой хуйней делать, но и похуй
+        Metrics metrics = new Metrics(this, PLUGIN_ID);
+
         saveDefaultConfig();
 
         saveLangFolder();

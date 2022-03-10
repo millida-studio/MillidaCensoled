@@ -25,7 +25,7 @@ public class MentionSoundInventory extends SimplePaginatedCustomInventory {
 
         CensurePlayer censurePlayer = CensurePlayer.by(player);
 
-        for (String soundName : CensurePlugin.INSTANCE.getConfig().getStringList("MentionsSounds")) {
+        for (String soundName : CensurePlugin.INSTANCE.getLangConfiguration().getStringList("MentionsSounds")) {
             Sound sound = Sound.valueOf(soundName.split(";")[0]);
             String soundColoredName = soundName.split(";")[1];
 
