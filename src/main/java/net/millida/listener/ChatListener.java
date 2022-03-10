@@ -102,6 +102,15 @@ public class ChatListener extends PacketAdapter
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event) {
+        if (CensurePlugin.INSTANCE.getConfig().getBoolean("ChatFormatEnable")) {
+            event.setCancelled(true);
+
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                player.sendMessage(CensurePlugin.INSTANCE.getConfig().getString("ChatFormat").replace("{player}", event.getPlayer().getName())
+                        .replace("{message}", event.getMessage()));
+            }
+        }
+
         lastSendedMessage.put(event.getPlayer(), event.getMessage());
 
         if (!event.getPlayer().hasMetadata("censure_add")) {

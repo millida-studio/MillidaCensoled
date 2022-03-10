@@ -18,10 +18,13 @@ import net.millida.inventory.api.InventoryManager;
 
 import java.io.File;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class CensurePlugin extends JavaPlugin {
 
@@ -54,6 +57,12 @@ public class CensurePlugin extends JavaPlugin {
         saveResource("bad-words.txt", false);
         saveResource("lang" + File.separator + "lang_en.yml", false);
         saveResource("lang" + File.separator + "lang_ru.yml", false);
+
+        getLatestVersion(s -> {
+            if (!getDescription().getVersion().equalsIgnoreCase(s)) {
+                Bukkit.getLogger().info("Мега крутой текст о том, что вышла новая версия");
+            }
+        });
 
         loadBadWords();
         loadLangConfiguration();
@@ -104,5 +113,18 @@ public class CensurePlugin extends JavaPlugin {
         }
 
         badWordsFileReader.close();
+    }
+
+    protected void getLatestVersion(Consumer<String> consumer) {
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            try (InputStream inputStream = new URL("https://api.spigotmc.org/legacy/update.php?resource=100546").openStream()) {
+                Scanner scanner = new Scanner(inputStream);
+
+                if (scanner.hasNext()) {
+                    consumer.accept(scanner.next());
+                }
+            } catch (Exception ignore) { }
+        });
+
     }
 }
