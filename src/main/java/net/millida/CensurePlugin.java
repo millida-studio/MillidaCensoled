@@ -7,6 +7,7 @@ import net.millida.command.CensureCommand;
 import net.millida.command.api.SimpleCommandManager;
 import net.millida.inventory.api.InventoryListener;
 import net.millida.listener.ChatListener;
+import net.millida.listener.PlayerListener;
 import net.millida.storage.StorageManager;
 import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
@@ -36,6 +37,9 @@ public class CensurePlugin extends JavaPlugin {
     protected final SimpleCommandManager commandManager                 = new SimpleCommandManager();
 
     @Getter
+    protected boolean hasUpdate;
+
+    @Getter
     protected FileConfiguration langConfiguration;
     private final File langFolder = new File(getDataFolder(), "lang");
 
@@ -60,7 +64,12 @@ public class CensurePlugin extends JavaPlugin {
 
         getLatestVersion(s -> {
             if (!getDescription().getVersion().equalsIgnoreCase(s)) {
-                Bukkit.getLogger().info("Мега крутой текст о том, что вышла новая версия");
+                this.hasUpdate = true;
+
+                Bukkit.getLogger().info("");
+                Bukkit.getLogger().info(ChatColor.GOLD + "It seems that a new version of the Censure plugin has been released!");
+                Bukkit.getLogger().info(ChatColor.GOLD + "Find out more - https://www.spigotmc.org/resources/censure.100546/");
+                Bukkit.getLogger().info("");
             }
         });
 
@@ -70,7 +79,7 @@ public class CensurePlugin extends JavaPlugin {
         StorageManager.INSTANCE.init(getConfig());
 
         commandManager.registerCommand(new CensureCommand());
-        registerListener();
+        registerListeners();
     }
 
     private void saveLangFolder() {
@@ -81,11 +90,13 @@ public class CensurePlugin extends JavaPlugin {
         langFolder.mkdir();
     }
 
-    protected void registerListener() {
+    protected void registerListeners() {
         ChatListener chatListener = new ChatListener();
 
         ProtocolLibrary.getProtocolManager().addPacketListener(chatListener);
         getServer().getPluginManager().registerEvents(chatListener, this);
+
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
     }
 
