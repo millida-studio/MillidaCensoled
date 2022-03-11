@@ -6,6 +6,6 @@ import lombok.Getter;
 public enum StorageType {
 
     MYSQL,
-    YML
+    LOCAL
 
 }

@@ -100,7 +100,7 @@ public class CensurePlugin extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new InventoryListener(), this);
     }
 
-    protected void loadLangConfiguration() {
+    public void loadLangConfiguration() {
         String lang = getConfig().getString("Lang", "en").toLowerCase();
 
         File langFile = new File(langFolder, "lang_" + lang + ".yml");
@@ -136,6 +136,5 @@ public class CensurePlugin extends JavaPlugin {
                 }
             } catch (Exception ignore) { }
         });
-
     }
 }

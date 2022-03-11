@@ -5,6 +5,8 @@ import net.millida.command.api.SimpleCommand;
 import net.millida.inventory.impl.CensureInventory;
 import net.millida.player.CensurePlayer;
 import net.millida.storage.StorageManager;
+import net.millida.storage.StorageType;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -117,6 +119,31 @@ public class CensureCommand extends SimpleCommand {
                 commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("ToggleMessage")
                         .replace("{status}", censurePlayer.isEnableMentions() ? "§a✓" : "§c✖")));
                 return;
+            }
+
+            case "reload": {
+                if (!commandSender.hasPermission("censure.reload")) {
+                    commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
+                    return;
+                }
+
+                CensurePlugin.INSTANCE.reloadConfig();
+                CensurePlugin.INSTANCE.loadLangConfiguration();
+
+                StorageType storageType = StorageType.valueOf(CensurePlugin.INSTANCE.getConfig().getString("StorageType").toUpperCase().replace("YML", "LOCAL"));
+
+                if (storageType == null) {
+                    Bukkit.getLogger().info(ChatColor.RED + "Storage type " + CensurePlugin.INSTANCE.getConfig().getString("StorageType") + " not found!");
+
+                    storageType = StorageType.LOCAL;
+                }
+
+                StorageManager.INSTANCE.setStorageType(storageType);
+                StorageManager.INSTANCE.init(CensurePlugin.INSTANCE.getConfig());
+
+                player.sendMessage(ChatColor.GOLD + "Plugin reloaded!");
+
+                break;
             }
 
             default: {

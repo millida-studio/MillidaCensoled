@@ -46,8 +46,6 @@ public class ChatListener extends PacketAdapter
                 event.getPacket().getChatComponents().read(0);
 
         if (wrappedChatComponent == null) {
-            Bukkit.getLogger().info(ChatColor.RED + "ChatComponent is null");
-            Bukkit.getLogger().info(event.getPacket().getChatComponents().read(0).getJson());
             return;
         }
 
@@ -56,13 +54,15 @@ public class ChatListener extends PacketAdapter
         String message = baseComponents[0].toLegacyText();
         String newMessage = String.valueOf(message);
 
-        if (censurePlayer.isEnableMentions() && newMessage.contains(player.getName())) {
-            if (lastSendedMessage.get(player) == null || !newMessage.contains(lastSendedMessage.get(player))) {
-                Bukkit.getScheduler().runTask(CensurePlugin.INSTANCE, () -> {
-                    player.playSound(player.getLocation(), censurePlayer.getMentionsSound(), 1, 1);
-                });
+        if (CensurePlugin.INSTANCE.getConfig().getBoolean("MentionsEnable")) {
+            if (censurePlayer.isEnableMentions() && newMessage.contains(player.getName())) {
+                if (lastSendedMessage.get(player) == null || !newMessage.contains(lastSendedMessage.get(player))) {
+                    Bukkit.getScheduler().runTask(CensurePlugin.INSTANCE, () -> {
+                        player.playSound(player.getLocation(), censurePlayer.getMentionsSound(), 1, 1);
+                    });
 
-                newMessage = underlineWord(player.getName(), newMessage);
+                    newMessage = underlineWord(player.getName(), newMessage);
+                }
             }
         }
 

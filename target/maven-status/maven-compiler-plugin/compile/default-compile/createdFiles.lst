@@ -5,6 +5,7 @@ net\millida\storage\mysql\MysqlExecutor.class
 net\millida\player\CensurePlayer.class
 net\millida\inventory\api\impl\SimpleCustomInventory.class
 net\millida\inventory\impl\WordListInventory.class
+net\millida\listener\PlayerListener.class
 net\millida\storage\mysql\MysqlConnection.class
 net\millida\inventory\api\InventoryMarkup.class
 net\millida\util\StringUtils.class

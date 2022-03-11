@@ -1,6 +1,6 @@
 name: Censure
 main: net.millida.CensurePlugin
-version: 0.5 BETA
+version: 0.6 BETA
 author: MillidaStudio
 api-version: 1.13
 depend:

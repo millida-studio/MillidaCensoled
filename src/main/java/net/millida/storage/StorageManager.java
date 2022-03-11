@@ -2,6 +2,7 @@ package net.millida.storage;
 
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.Setter;
 import net.millida.CensurePlugin;
 import net.millida.player.CensurePlayer;
 import net.millida.storage.mysql.MysqlConnection;
@@ -23,6 +24,7 @@ public final class StorageManager {
 
 
 
+    @Setter
     protected StorageType storageType;
 
     protected PlayerDataConfiguration playerDataConfiguration = new PlayerDataConfiguration();
@@ -42,18 +44,18 @@ public final class StorageManager {
     private static final String MENTIONS_LOAD_QUERY = "SELECT * FROM `Mentions` WHERE `Name`=?";
 
     public StorageManager() {
-        this.storageType = StorageType.valueOf(CensurePlugin.INSTANCE.getConfig().getString("StorageType").toUpperCase());
+        this.storageType = StorageType.valueOf(CensurePlugin.INSTANCE.getConfig().getString("StorageType").toUpperCase().replace("YML", "LOCAL"));
 
         if (storageType == null) {
-            Bukkit.getLogger().info(ChatColor.RED + "Тип хранения: " + CensurePlugin.INSTANCE.getConfig().getString("StorageType")  + " не найден!");
+            Bukkit.getLogger().info(ChatColor.RED + "Storage type " + CensurePlugin.INSTANCE.getConfig().getString("StorageType")  + " not found!");
 
-            this.storageType = StorageType.YML;
+            this.storageType = StorageType.LOCAL;
         }
     }
 
     public void init(@NonNull FileConfiguration configuration) {
         switch (storageType) {
-            case YML: {
+            case LOCAL: {
                 playerDataConfiguration.createIfNotExists();
                 break;
             }
@@ -77,7 +79,7 @@ public final class StorageManager {
 
     public void savePlayer(@NonNull CensurePlayer censurePlayer) {
         switch (storageType) {
-            case YML: {
+            case LOCAL: {
                 playerDataConfiguration.savePlayer(censurePlayer);
                 break;
             }
@@ -108,7 +110,7 @@ public final class StorageManager {
                 .collect(Collectors.toList()));
 
         switch (storageType) {
-            case YML: {
+            case LOCAL: {
                 //Уже лоадиться в onInstall
                 break;
             }
