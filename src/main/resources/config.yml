@@ -23,7 +23,16 @@ MentionsEnable: true
 #Initially, mentions work for all players.
 DefaultEnableMentions: true
 
+RandomCharsEnable: true
+RandomChars:
+  - '*'
+  - "%"
+  - "$"
+  - "#"
+  - "@"
+  - '•'
+  - '∆'
 #Character to replace censored words
-CensureChar: '*'
+CensureChar: "*"
 #Shows the original post form when hovering over the text
 HoverEnable: true

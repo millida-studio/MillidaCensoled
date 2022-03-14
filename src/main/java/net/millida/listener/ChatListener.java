@@ -20,6 +20,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -84,7 +86,7 @@ public class ChatListener extends PacketAdapter
 
                     censured = true;
                     newMessage = Pattern.compile(word, Pattern.LITERAL | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(newMessage)
-                            .replaceAll(Matcher.quoteReplacement(StringUtils.repeat(CensurePlugin.INSTANCE.getConfig().getString("CensureChar"), word.length())));
+                            .replaceAll(Matcher.quoteReplacement(censureWord(word.length())));
                 }
             }
         }
@@ -157,5 +159,20 @@ public class ChatListener extends PacketAdapter
         }
 
         return String.join(foundWord, separatedMessage) + (message.endsWith(foundWord) ? "§n" + foundWord : "");
+    }
+
+    protected String censureWord(int lenght) {
+        if (!CensurePlugin.INSTANCE.getConfig().getBoolean("RandomCharsEnable")) {
+            return StringUtils.repeat(CensurePlugin.INSTANCE.getConfig().getString("CensureChar"), lenght);
+        }
+
+        List<String> censureCharsList = CensurePlugin.INSTANCE.getConfig().getStringList("RandomChars");
+
+        StringBuilder censuredString = new StringBuilder();
+        for (int i = 0; i < lenght; i++) {
+            censuredString.append(censureCharsList.get(ThreadLocalRandom.current().nextInt(censureCharsList.size())));
+        }
+
+        return censuredString.toString();
     }
 }
