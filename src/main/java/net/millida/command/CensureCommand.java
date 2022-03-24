@@ -15,7 +15,7 @@ import org.bukkit.entity.Player;
 public class CensureCommand extends SimpleCommand {
 
     public CensureCommand() {
-        super("censure", "цензура", "mentions");
+        super("censure", "цензура");
 
         setOnlyPlayers(true);
     }
@@ -117,7 +117,7 @@ public class CensureCommand extends SimpleCommand {
                 StorageManager.INSTANCE.savePlayer(censurePlayer);
 
                 commandSender.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("ToggleMessage")
-                        .replace("{status}", censurePlayer.isEnableMentions() ? "§a✓" : "§c✖")));
+                        .replace("{status}", censurePlayer.isEnableCensure() ? "§a✓" : "§c✖")));
                 return;
             }
 

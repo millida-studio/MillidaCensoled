@@ -21,9 +21,6 @@ public class CensurePlayer {
     private final String playerName;
 
     private boolean enableCensure = true;
-    private boolean enableMentions = true;
-
-    private Sound mentionsSound = Sound.ENTITY_PLAYER_LEVELUP;
 
     private final List<String> censureWordsList = new LinkedList<>();
     private final List<String> addedWordsList = new LinkedList<>();
@@ -52,15 +49,6 @@ public class CensurePlayer {
         addedWordsList.remove(word.toLowerCase());
         removedWordsList.add(word.toLowerCase());
 
-        StorageManager.INSTANCE.savePlayer(this);
-    }
-
-    public void setMentionsSound(@NonNull Sound sound) {
-        if (mentionsSound.equals(sound)) {
-            return;
-        }
-
-        this.mentionsSound = sound;
         StorageManager.INSTANCE.savePlayer(this);
     }
 

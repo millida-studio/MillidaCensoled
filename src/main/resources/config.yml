@@ -18,11 +18,6 @@ MinWordLenght: 3
 #Maximum word lenght for censure
 MaxWordLenght: 6
 
-#Do mentions work on the server
-MentionsEnable: true
-#Initially, mentions work for all players.
-DefaultEnableMentions: true
-
 RandomCharsEnable: true
 RandomChars:
   - '*'

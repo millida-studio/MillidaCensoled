@@ -6,6 +6,7 @@ import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
 import lombok.NonNull;
 import net.md_5.bungee.api.chat.BaseComponent;
+import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.chat.ComponentSerializer;
@@ -40,7 +41,7 @@ public class ChatListener extends PacketAdapter
         Player player = event.getPlayer();
         CensurePlayer censurePlayer = CensurePlayer.by(player);
 
-        if (!censurePlayer.isEnableCensure() && !censurePlayer.isEnableMentions()) {
+        if (!censurePlayer.isEnableCensure()) {
             return;
         }
 
@@ -55,18 +56,6 @@ public class ChatListener extends PacketAdapter
 
         String message = baseComponents[0].toLegacyText();
         String newMessage = String.valueOf(message);
-
-        if (CensurePlugin.INSTANCE.getConfig().getBoolean("MentionsEnable")) {
-            if (censurePlayer.isEnableMentions() && newMessage.contains(player.getName())) {
-                if (lastSendedMessage.get(player) == null || !newMessage.contains(lastSendedMessage.get(player))) {
-                    Bukkit.getScheduler().runTask(CensurePlugin.INSTANCE, () -> {
-                        player.playSound(player.getLocation(), censurePlayer.getMentionsSound(), 1, 1);
-                    });
-
-                    newMessage = underlineWord(player.getName(), newMessage);
-                }
-            }
-        }
 
         boolean censured = false;
         if (censurePlayer.isEnableCensure()) {
@@ -91,7 +80,19 @@ public class ChatListener extends PacketAdapter
             }
         }
 
+        HoverEvent hoverEvent = baseComponents[0].getHoverEvent();
+        ClickEvent clickEvent = baseComponents[0].getClickEvent();
+
         baseComponents = TextComponent.fromLegacyText(newMessage);
+
+        if (hoverEvent != null) {
+            baseComponents[0].setHoverEvent(hoverEvent);
+        }
+
+        if (clickEvent != null) {
+            baseComponents[0].setClickEvent(clickEvent);
+        }
+
         if (censured && CensurePlugin.INSTANCE.getConfig().getBoolean("HoverEnable")) {
             for (BaseComponent baseComponent : baseComponents) {
                 baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(message)));
@@ -137,28 +138,6 @@ public class ChatListener extends PacketAdapter
         censurePlayer.addCensure(word);
 
         event.getPlayer().removeMetadata("censure_add", CensurePlugin.INSTANCE);
-    }
-
-    protected String underlineWord(@NonNull String foundWord, @NonNull String message) {
-        if (!message.contains(foundWord)) {
-            return message;
-        }
-
-        String[] separatedMessage = message.split(foundWord);
-
-        for (int index = 0; index < separatedMessage.length; index++) {
-            String part = separatedMessage[index];
-
-            if (index > 0) {
-                separatedMessage[index] = "§r" + ChatColor.getLastColors(separatedMessage[index - 1]).replace("§n", "") + part;
-            }
-
-            if (index != separatedMessage.length - 1) {
-                separatedMessage[index] += "§n";
-            }
-        }
-
-        return String.join(foundWord, separatedMessage) + (message.endsWith(foundWord) ? "§n" + foundWord : "");
     }
 
     protected String censureWord(int lenght) {

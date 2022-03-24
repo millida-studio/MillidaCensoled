@@ -61,50 +61,5 @@ public class CensureInventory extends SimpleCustomInventory {
                         .build(), (customInventory, inventoryClickEvent) -> {
                     new WordListInventory().openInventory(player);
                 });
-
-        lore.clear();
-        for (String arg : CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Censure.MentionInfoItem.lore")) {
-            lore.add(arg.replace("{status}", censurePlayer.isEnableMentions() ? "§a✓" : "§c✖"));
-        }
-
-        drawItem(CensurePlugin.INSTANCE.getLangConfiguration().getInt("Gui.Censure.MentionInfoItem.slot"),
-                ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Censure.MentionInfoItem.material")))
-                        .setDurability(CensurePlugin.INSTANCE.getLangConfiguration().getInt("Gui.Censure.MentionInfoItem.data", 0))
-
-
-                        .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Censure.MentionInfoItem.name"))
-                        .setLore(lore)
-
-                        .build(), (customInventory, inventoryClickEvent) -> {
-                    if (!player.hasPermission("mention.toggle")) {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
-
-                        return;
-                    }
-
-                    censurePlayer.setEnableMentions(!censurePlayer.isEnableMentions());
-                    StorageManager.INSTANCE.savePlayer(censurePlayer);
-
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("ToggleMentionMessage")
-                            .replace("{status}", censurePlayer.isEnableMentions() ? "§a✓" : "§c✖")));
-                    player.closeInventory();
-                });
-
-        drawItem(CensurePlugin.INSTANCE.getLangConfiguration().getInt("Gui.Censure.MentionSoundItem.slot"),
-                ItemUtil.newBuilder(MaterialsRegistry.matchMaterial(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Censure.MentionSoundItem.material")))
-                        .setDurability(CensurePlugin.INSTANCE.getLangConfiguration().getInt("Gui.Censure.MentionSoundItem.data", 0))
-
-                        .setName(CensurePlugin.INSTANCE.getLangConfiguration().getString("Gui.Censure.MentionSoundItem.name"))
-                        .setLore(CensurePlugin.INSTANCE.getLangConfiguration().getStringList("Gui.Censure.MentionSoundItem.lore"))
-
-                        .build(), (customInventory, inventoryClickEvent) -> {
-                    if (!player.hasPermission("censure.sound")) {
-                        player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("NoPermMessage")));
-
-                        return;
-                    }
-
-                    new MentionSoundInventory().openInventory(player);
-                });
     }
 }
