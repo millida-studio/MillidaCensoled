@@ -101,25 +101,6 @@ public class ItemUtil {
             return this;
         }
 
-        public ItemBuilder setUnbreakable(boolean flag) {
-            ItemMeta itemMeta = itemStack.getItemMeta();
-
-            itemMeta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-
-            itemStack.setItemMeta(itemMeta);
-            return this;
-        }
-
-        public ItemBuilder setMaterial(Material material) {
-            itemStack.setType(material);
-            return this;
-        }
-
-        public ItemBuilder setAmount(int amount) {
-            itemStack.setAmount(amount);
-            return this;
-        }
-
         public ItemBuilder setName(String name) {
             if (name == null) {
                 return this;
@@ -127,18 +108,6 @@ public class ItemUtil {
 
             ItemMeta itemMeta = itemStack.getItemMeta();
             itemMeta.setDisplayName(name);
-
-            itemStack.setItemMeta(itemMeta);
-            return this;
-        }
-
-        public ItemBuilder setLore(String... loreArray) {
-            if (loreArray == null) {
-                return this;
-            }
-
-            ItemMeta itemMeta = itemStack.getItemMeta();
-            itemMeta.setLore(Arrays.asList(loreArray));
 
             itemStack.setItemMeta(itemMeta);
             return this;
@@ -167,20 +136,6 @@ public class ItemUtil {
 
             loreList.add(lore);
             return setLore(loreList);
-        }
-
-        public ItemBuilder setGlowing(boolean glowing) {
-            Enchantment glowEnchantment = Enchantment.ARROW_DAMAGE;
-
-            if (glowing) {
-                addItemFlag(ItemFlag.HIDE_ENCHANTS);
-                addEnchantment(glowEnchantment, 1);
-            } else {
-                removeItemFlag(ItemFlag.HIDE_ENCHANTS);
-                removeEnchantment(glowEnchantment);
-            }
-
-            return this;
         }
 
         public ItemBuilder addEnchantment(Enchantment enchantment, int level) {
@@ -250,30 +205,6 @@ public class ItemUtil {
             potionMeta.setColor(color);
 
             itemStack.setItemMeta(potionMeta);
-            return this;
-        }
-
-        public ItemBuilder setPlayerSkull(String playerSkull) {
-            if (playerSkull == null) {
-                return this;
-            }
-
-            SkullMeta skullMeta = (SkullMeta) itemStack.getItemMeta();
-            skullMeta.setOwner(playerSkull);
-
-            itemStack.setItemMeta(skullMeta);
-            return this;
-        }
-
-        public ItemBuilder setLeatherColor(Color color) {
-            if (color == null) {
-                return this;
-            }
-
-            LeatherArmorMeta leatherArmorMeta = (LeatherArmorMeta) itemStack.getItemMeta();
-            leatherArmorMeta.setColor(color);
-
-            itemStack.setItemMeta(leatherArmorMeta);
             return this;
         }
 

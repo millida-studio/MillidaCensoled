@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import net.millida.CensurePlugin;
 import net.millida.storage.StorageManager;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -59,6 +60,8 @@ public class CensurePlayer {
 
         if (censurePlayer == null) {
             censurePlayer = new CensurePlayer(player.getName().toLowerCase());
+
+            censurePlayer.setEnableCensure(CensurePlugin.INSTANCE.getConfig().getBoolean("DefaultEnableCensure", true));
             StorageManager.INSTANCE.loadPlayer(censurePlayer);
 
             CENSURE_PLAYER_MAP.put(censurePlayer.getPlayerName().toLowerCase(), censurePlayer);

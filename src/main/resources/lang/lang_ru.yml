@@ -14,6 +14,7 @@ WordLenghtLimit: "§cСлово должно быть не менее 3 и не 
 WordNotCensured: "§cЭто слово не подвергается цензуре"
 WordAlredyCensured: "§cЭто слово уже цензурировано"
 NoPermMessage: "§cУ вас недостаточно прав!"
+ToggleMessage: "§fЦензура: {status}"
 AddedMessage: "§fСлово {word} успешно добавлено в цензуру"
 RemovedMessage: "§fСлово {word} успешно удалено из цензуры"
 AddWordMessage: "§fНапиши слово чат, чтобы зацензурить его"

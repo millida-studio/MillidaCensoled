@@ -46,7 +46,7 @@ public class CensureInventory extends SimpleCustomInventory {
                     censurePlayer.setEnableCensure(!censurePlayer.isEnableCensure());
                     StorageManager.INSTANCE.savePlayer(censurePlayer);
 
-                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("ToggleMessage")
+                    player.sendMessage(ChatColor.translateAlternateColorCodes('&', CensurePlugin.INSTANCE.getLangConfiguration().getString("ToggleMessage", "§fCensure: {status}")
                             .replace("{status}", censurePlayer.isEnableCensure() ? "§a✓" : "§c✖")));
                     player.closeInventory();
                 });

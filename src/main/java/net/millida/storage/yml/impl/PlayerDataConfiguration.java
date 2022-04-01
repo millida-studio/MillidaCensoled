@@ -4,7 +4,6 @@ import lombok.NonNull;
 import net.millida.CensurePlugin;
 import net.millida.player.CensurePlayer;
 import net.millida.storage.yml.BaseConfiguration;
-import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 
@@ -32,9 +31,10 @@ public class PlayerDataConfiguration extends BaseConfiguration {
             censurePlayer.getRemovedWordsList().addAll(removedWords);
             censurePlayer.getAddedWordsList().addAll(addedWords);
 
-
             censurePlayer.getCensureWordsList().removeAll(removedWords);
             censurePlayer.getCensureWordsList().addAll(addedWords);
+
+            CensurePlayer.CENSURE_PLAYER_MAP.put(playerName.toLowerCase(), censurePlayer);
         }
     }
 

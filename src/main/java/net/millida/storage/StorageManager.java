@@ -32,9 +32,8 @@ public final class StorageManager {
 
     // =============================================== MYSQL ========================================== \\
 
-    private static final String DISABLE_QUERY = "INSERT IGNORE INTO `CensureEnabled` (`Name`) VALUES (?)";
-    private static final String ENABLE_QUERY = "DELETE FROM `CensureEnabled` WHERE `Name`=?";
-    private static final String IS_ENABLE_QUERY = "SELECT * FROM `CensureEnabled` WHERE `Name`=?";
+    private static final String UPDATE_STATUS_QUERY = "INSERT IGNORE INTO `CensureStatus` (`Name`, `Enable`) VALUES (?,?) ON DUPLICATE KEY UPDATE `Enable`=?";
+    private static final String LOAD_STATUS_QUERY = "SELECT * FROM `CensureEnabled` WHERE `Name`=?";
 
     private static final String LOAD_WORDS_QUERY = "SELECT * FROM `CensureWords` WHERE `Name`=?";
     private static final String ADD_WORD_QUERY = "INSERT INTO `CensureWords` (`Name`, `Word`, `Remove`) VALUES (?,?,?)";
@@ -65,7 +64,7 @@ public final class StorageManager {
                         .setPassword(configuration.getString("mysql.pass"))
                         .setDatabase(configuration.getString("mysql.database"))
 
-                        .createTable("CensureEnabled", "`Name` VARCHAR(256) NOT NULL PRIMARY KEY")
+                        .createTable("CensureStatus", "`Name` VARCHAR(256) NOT NULL PRIMARY KEY, `Enable` BOOLEAN NOT NULL")
                         .createTable("CensureWords", "`Name` VARCHAR(256) NOT NULL, `Word` TEXT NOT NULL, `Remove` BOOLEAN NOT NULL")
 
                         .build().getExecutor();
@@ -81,7 +80,7 @@ public final class StorageManager {
             }
 
             case MYSQL: {
-                mysqlConnection.execute(true, censurePlayer.isEnableCensure() ? ENABLE_QUERY : DISABLE_QUERY, censurePlayer.getPlayerName().toLowerCase());
+                mysqlConnection.execute(true, UPDATE_STATUS_QUERY, censurePlayer.getPlayerName().toLowerCase(), censurePlayer.isEnableCensure(), censurePlayer.isEnableCensure());
 
                 censurePlayer.getRemovedWordsList().forEach(word -> {
                     mysqlConnection.execute(true, DELETE_WORD_QUERY, censurePlayer.getPlayerName().toLowerCase(), word.toLowerCase());
@@ -104,13 +103,19 @@ public final class StorageManager {
 
         switch (storageType) {
             case LOCAL: {
-                //Уже лоадиться в onInstall
+                //Уже лоадиться в onInstall, но так как loadPlayer вызывается в случае, когда игрока нет в кэше, то значит его нет в файле, соответсвенно сохраняем его. Такая вот история
+                playerDataConfiguration.savePlayer(censurePlayer);
                 break;
             }
 
             case MYSQL: {
-                mysqlConnection.executeQuery(true, IS_ENABLE_QUERY, o -> {
-                    censurePlayer.setEnableCensure(!o.next());
+                mysqlConnection.executeQuery(true, LOAD_STATUS_QUERY, rs -> {
+
+                    if (rs.next()) {
+                        censurePlayer.setEnableCensure(rs.getBoolean("Enable"));
+                    }
+
+
                     return null;
                 }, censurePlayer.getPlayerName().toLowerCase());
 

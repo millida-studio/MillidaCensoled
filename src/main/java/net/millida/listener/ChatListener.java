@@ -4,7 +4,6 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
-import lombok.NonNull;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -58,48 +57,54 @@ public class ChatListener extends PacketAdapter
         String newMessage = String.valueOf(message);
 
         boolean censured = false;
-        if (censurePlayer.isEnableCensure()) {
-            for (String word : censurePlayer.getCensureWordsList()) {
-                if (!newMessage.toLowerCase().contains(word.toLowerCase())) {
+
+        for (String word : censurePlayer.getCensureWordsList()) {
+            if (!newMessage.toLowerCase().contains(word.toLowerCase())) {
+                continue;
+            }
+
+            for (String arg : newMessage.split(" ")) {
+                if (!arg.toLowerCase().contains(word.toLowerCase())) {
                     continue;
                 }
 
-                for (String arg : newMessage.split(" ")) {
-                    if (!arg.toLowerCase().contains(word.toLowerCase())) {
-                        continue;
-                    }
-
-                    if (censurePlayer.getRemovedWordsList().contains(arg.toLowerCase())) {
-                        continue;
-                    }
-
-                    censured = true;
-                    newMessage = Pattern.compile(word, Pattern.LITERAL | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(newMessage)
-                            .replaceAll(Matcher.quoteReplacement(censureWord(word.length())));
+                if (censurePlayer.getRemovedWordsList().contains(arg.toLowerCase())) {
+                    continue;
                 }
+
+                censured = true;
+                newMessage = Pattern.compile(word, Pattern.LITERAL | Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(newMessage)
+                        .replaceAll(Matcher.quoteReplacement(censureWord(word.length())));
             }
+        }
+
+        //Нет смысла ебашить дальше пакет, ведь мы ничего не нашли на цензуру
+        if (!censured) {
+            return;
         }
 
         HoverEvent hoverEvent = baseComponents[0].getHoverEvent();
         ClickEvent clickEvent = baseComponents[0].getClickEvent();
 
-        baseComponents = TextComponent.fromLegacyText(newMessage);
+        BaseComponent[] formattedBaseComponents = TextComponent.fromLegacyText(newMessage);
 
-        if (hoverEvent != null) {
-            baseComponents[0].setHoverEvent(hoverEvent);
+        for (BaseComponent baseComponent : formattedBaseComponents) {
+            if (hoverEvent != null) {
+                baseComponent.setHoverEvent(hoverEvent);
+            }
+
+            if (clickEvent != null) {
+                baseComponent.setClickEvent(clickEvent);
+            }
         }
 
-        if (clickEvent != null) {
-            baseComponents[0].setClickEvent(clickEvent);
-        }
-
-        if (censured && CensurePlugin.INSTANCE.getConfig().getBoolean("HoverEnable")) {
-            for (BaseComponent baseComponent : baseComponents) {
+        if (CensurePlugin.INSTANCE.getConfig().getBoolean("HoverEnable")) {
+            for (BaseComponent baseComponent : formattedBaseComponents) {
                 baseComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText(message)));
             }
         }
 
-        event.getPacket().getChatComponents().write(0, WrappedChatComponent.fromJson(ComponentSerializer.toString(baseComponents)));
+        event.getPacket().getChatComponents().write(0, WrappedChatComponent.fromJson(ComponentSerializer.toString(formattedBaseComponents)));
     }
 
     @EventHandler

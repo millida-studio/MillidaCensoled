@@ -12,6 +12,7 @@ WordLenghtLimit: "§cThe word must not be less than 3 and not more than 6 charac
 WordNotCensured: "§cThis word is not censored"
 WordAlredyCensured: "§cThis word is already censored"
 NoPermMessage: "§cYou don't have enough permissions!"
+ToggleMessage: "§fCensure: {status}"
 AddedMessage: "§fThe word {word} has been successfully censored"
 RemovedMessage: "§fThe word {word} was successfully removed from censored"
 AddWordMessage: "§fWrite a word in the chat in order to censor it"

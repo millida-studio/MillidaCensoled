@@ -18,6 +18,8 @@ MinWordLenght: 3
 #Maximum word lenght for censure
 MaxWordLenght: 6
 
+DefaultEnableCensure: true
+
 RandomCharsEnable: true
 RandomChars:
   - '*'
