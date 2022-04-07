@@ -29,7 +29,6 @@ net\millida\storage\StorageManager.class
 net\millida\util\NumberUtil.class
 net\millida\inventory\api\impl\SimplePaginatedCustomInventory.class
 net\millida\storage\mysql\MysqlConnection$SQLBuilder.class
-net\millida\inventory\impl\MentionSoundInventory.class
 net\millida\command\CensureCommand.class
 net\millida\inventory\api\CustomInventory.class
 net\millida\inventory\api\item\InventoryClickItem.class

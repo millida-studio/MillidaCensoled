@@ -1,0 +1,50 @@
+RemovedWords: []
+
+WordLenghtLimit: "§cСлово має містити не менше 3 і не більше 6 символів!"
+WordNotCensured: "§cЦе слово не піддається цензурі"
+WordAlredyCensured: "§cЦе слово вже піддане цензурі"
+NoPermMessage: "§cУ Вас немає прав!"
+ToggleMessage: "§fЦензура: {status}"
+AddedMessage: "§fСлово {word} було успішно піддано цензурі"
+RemovedMessage: "§fСлово {word} успішно видалено з цензури"
+AddWordMessage: "§fНапишіть слово в чаті, щоб піддати його цензурі"
+
+Gui:
+  Censure:
+    title: "§0Меню цензури"
+    CensureInfoItem:
+      slot: 11
+      material: BOOK
+      name: "§6Інформація"
+      lore:
+        - "§fСтатус: {status}"
+        - ""
+        - "§eНатисніть, щоб змінити статус"
+    CensureWordListItem:
+      slot: 12
+      material: WRITABLE_BOOK
+      name: "§6Список слів"
+      lore:
+        - ""
+        - "§eНатисніть, щоб відкрити інвентар"
+  Word:
+    title: "§0Список слів"
+    material: "book"
+    name: "§6{word}"
+    lore:
+      - ""
+      - "§eКлацніть правою кнопкою миші, щоб видалити слово зі списку"
+    AddWordItem:
+      material: "name_tag"
+      name: "§6Додати слово"
+      lore:
+        - "§eНатисніть, щоб додати слово"
+    EmptyListItem:
+      material: "glass_bottle"
+      name: "§cОй..."
+      lore:
+        - "§cСписок порожній..."
+
+  ExitItem:
+    material: arrow
+    name: "§cВихід"

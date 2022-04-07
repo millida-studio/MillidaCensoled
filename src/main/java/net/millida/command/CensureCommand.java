@@ -11,7 +11,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-//Меня так напрягает Баккит Апи комманд, так что да, я для одной команды юзаю апи, хули
 public class CensureCommand extends SimpleCommand {
 
     public CensureCommand() {

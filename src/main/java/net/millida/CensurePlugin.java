@@ -51,7 +51,6 @@ public class CensurePlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        //Хуй его пойми что с этой хуйней делать, но и похуй
         Metrics metrics = new Metrics(this, PLUGIN_ID);
 
         saveDefaultConfig();
@@ -61,6 +60,7 @@ public class CensurePlugin extends JavaPlugin {
         saveResource("bad-words.txt", false);
         saveResource("lang" + File.separator + "lang_en.yml", false);
         saveResource("lang" + File.separator + "lang_ru.yml", false);
+        saveResource("lang" + File.separator + "lang_ua.yml", false);
 
         getLatestVersion(s -> {
             if (!getDescription().getVersion().equalsIgnoreCase(s)) {

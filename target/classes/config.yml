@@ -2,6 +2,7 @@ Lang: "en"
 
 #Need for users, using paper 1.16+. Paper has problem with Chat Packets because of which users who use paper has problems
 ChatFormatEnable: false
+PlaceholdersEnable: true
 ChatFormat: "<{player}> {message}"
 
 #MYSQL; LOCAL
@@ -18,12 +19,18 @@ MinWordLenght: 3
 #Maximum word lenght for censure
 MaxWordLenght: 6
 
-#Do mentions work on the server
-MentionsEnable: true
-#Initially, mentions work for all players.
-DefaultEnableMentions: true
+DefaultEnableCensure: true
 
+RandomCharsEnable: true
+RandomChars:
+  - '*'
+  - "%"
+  - "$"
+  - "#"
+  - "@"
+  - '•'
+  - '∆'
 #Character to replace censored words
-CensureChar: '*'
+CensureChar: "*"
 #Shows the original post form when hovering over the text
 HoverEnable: true

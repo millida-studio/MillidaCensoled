@@ -79,6 +79,7 @@ public class InventoryListener implements Listener {
             inventoryClickEvent.setCancelled(!customInventory.getInventorySettings().isUseOnlyCacheItems());
 
         } else {
+            if (!inventoryClickEvent.isRightClick()) player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
 
             inventoryClickEvent.setCancelled(true);
         }
@@ -101,8 +102,6 @@ public class InventoryListener implements Listener {
                 inventoryClickEvent.setCurrentItem(itemStack);
             }
         }
-
-        if (!inventoryClickEvent.isRightClick()) player.playSound(player.getLocation(), Sound.ENTITY_ITEM_PICKUP, 1, 1);
 
         WeakObjectCache weakObjectCache = WeakObjectCache.create();
         weakObjectCache.addObject("slot", itemSlot);

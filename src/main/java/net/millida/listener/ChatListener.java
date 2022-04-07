@@ -4,6 +4,7 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketEvent;
 import com.comphenix.protocol.wrappers.WrappedChatComponent;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -78,7 +79,7 @@ public class ChatListener extends PacketAdapter
             }
         }
 
-        //Нет смысла ебашить дальше пакет, ведь мы ничего не нашли на цензуру
+        //Нет смысла изменять дальше пакет, ведь мы ничего не нашли на цензуру
         if (!censured) {
             return;
         }
@@ -113,8 +114,10 @@ public class ChatListener extends PacketAdapter
             event.setCancelled(true);
 
             for (Player player : Bukkit.getOnlinePlayers()) {
-                player.sendMessage(CensurePlugin.INSTANCE.getConfig().getString("ChatFormat").replace("{player}", event.getPlayer().getName())
-                        .replace("{message}", event.getMessage()));
+                String formattedMessage = CensurePlugin.INSTANCE.getConfig().getString("ChatFormat").replace("{player}", event.getPlayer().getName())
+                        .replace("{message}", event.getMessage()).replace("&", "§");
+
+                player.sendMessage(CensurePlugin.INSTANCE.getConfig().getBoolean("PlaceholdersEnable",  true) ? PlaceholderAPI.setPlaceholders(event.getPlayer(), formattedMessage) : formattedMessage);
             }
         }
 
