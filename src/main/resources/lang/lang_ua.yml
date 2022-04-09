@@ -13,7 +13,7 @@ Gui:
   Censure:
     title: "§0Меню цензури"
     CensureInfoItem:
-      slot: 11
+      slot: 12
       material: BOOK
       name: "§6Інформація"
       lore:
@@ -21,7 +21,7 @@ Gui:
         - ""
         - "§eНатисніть, щоб змінити статус"
     CensureWordListItem:
-      slot: 12
+      slot: 16
       material: WRITABLE_BOOK
       name: "§6Список слів"
       lore:

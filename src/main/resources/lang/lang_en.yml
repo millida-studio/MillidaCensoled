@@ -13,7 +13,7 @@ Gui:
   Censure:
     title: "§0Censure Menu"
     CensureInfoItem:
-      slot: 11
+      slot: 12
       material: BOOK
       name: "§6CensureInfo"
       lore:
@@ -21,7 +21,7 @@ Gui:
         - ""
         - "§eClick to chage status"
     CensureWordListItem:
-      slot: 12
+      slot: 16
       material: WRITABLE_BOOK
       name: "§6Censure Word List"
       lore:

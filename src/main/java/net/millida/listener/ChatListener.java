@@ -20,6 +20,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -59,7 +61,10 @@ public class ChatListener extends PacketAdapter
 
         boolean censured = false;
 
-        for (String word : censurePlayer.getCensureWordsList()) {
+        List<String> censureWordsList = censurePlayer.getCensureWordsList();
+        censureWordsList.sort(Comparator.comparingInt(String::length));
+
+        for (String word : censureWordsList) {
             if (!newMessage.toLowerCase().contains(word.toLowerCase())) {
                 continue;
             }

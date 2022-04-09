@@ -1,0 +1,50 @@
+RemovedWords: []
+
+WordLenghtLimit: "§cKelime 3 karakterden az 6 karakterden fazla olamaz!"
+WordNotCensured: "§cBu kelime sansürlü değil"
+WordAlredyCensured: "§cBu kelime zaten sansürlendi"
+NoPermMessage: "§cYeterli izniniz yok!"
+ToggleMessage: "§fSansür: {status}"
+AddedMessage: "§f{word} kelimesi başarıyla sansürlendi"
+RemovedMessage: "§f{word} kelimesi sansürden başarıyla kaldırıldı"
+AddWordMessage: "§fSansürlemek için sohbete bir kelime yazın"
+
+Gui:
+  Censure:
+    title: "§0Censure Menu"
+    CensureInfoItem:
+      slot: 12
+      material: BOOK
+      name: "§6Sansür Bilgisi"
+      lore:
+        - "§fSansür Durumu: {status}"
+        - ""
+        - "§eDurumu değiştirmek için tıklayın"
+    CensureWordListItem:
+      slot: 16
+      material: WRITABLE_BOOK
+      name: "§6Sansür Kelime Listesi"
+      lore:
+        - ""
+        - "§eEnvanteri açmak için tıklayın"
+  Word:
+    title: "§0Kelime Listesi Menüsü"
+    material: "book"
+    name: "§6{word}"
+    lore:
+      - ""
+      - "§eKelimeyi listeden çıkarmak için sağ tıklayın"
+    AddWordItem:
+      material: "name_tag"
+      name: "§6Kelime Ekle"
+      lore:
+        - "§eKelime eklemek için tıklayın"
+    EmptyListItem:
+      material: "glass_bottle"
+      name: "§cOoops"
+      lore:
+        - "§cListe boş..."
+
+  ExitItem:
+    material: arrow
+    name: "§cÇıkış"

@@ -61,6 +61,7 @@ public class CensurePlugin extends JavaPlugin {
         saveResource("lang" + File.separator + "lang_en.yml", false);
         saveResource("lang" + File.separator + "lang_ru.yml", false);
         saveResource("lang" + File.separator + "lang_ua.yml", false);
+        saveResource("lang" + File.separator + "lang_tr.yml", false);
 
         getLatestVersion(s -> {
             if (!getDescription().getVersion().equalsIgnoreCase(s)) {
